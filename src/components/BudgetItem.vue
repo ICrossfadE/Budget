@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="list-item" v-for="(item, prop) in list" :key="prop">
+    <div class="list-item" v-for="(item, prop) in filterObj" :key="prop">
       <span class="budget-coment">{{ item.comment }}</span>
       <span class="budget-value" :class="item.classIco">{{ item.value }}</span>
       <el-button type="danger" size="mini" @click="deleteElement(item.id)">Delete</el-button>
@@ -13,11 +13,8 @@
 export default {
   name: 'BudgetItem',
 
-  data() {
-    },
-
-    props: {
-    list: {
+  props: {
+    filterObj: {
       type: Object,
       default: () => ({})
     }

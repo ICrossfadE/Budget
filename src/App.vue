@@ -2,7 +2,7 @@
   <div id="app">
     <Form @submitForm="onFormSubmit" />
     <TotalBalance :total="totalBalance" :class="totalClass" />
-    <BudgetList :list="list" />
+    <BudgetList :list="list" :filterObj="filterObj" @filter='toFilterList'/>
   </div>
 </template>
 
@@ -35,7 +35,9 @@ export default {
         classIco: 'el-icon-bottom red',
         id: 2
       }
-    }
+    },
+    // Відфільтровий обєкт на основі List;
+    filterObj: {}
   }),
   computed: {
     totalBalance() {
@@ -69,10 +71,21 @@ export default {
         newObj.classIco = 'el-icon-top grean'
       }
 
+      // Добавляємо новий елемнт в обидва обєкта
       this.$set(this.list, newObj.id, newObj);
-      console.log(this.$set(this.list, newObj.id, newObj));
+      this.$set(this.filterObj, newObj.id, newObj);
+    },
+    // Метод для фільтрування
+    toFilterList(value) {
+      if(value === 'OK') {
+        this.filterObj = { ...this.list }
+        console.log(value, this.filterObj);
+      } else {
+        this.filterObj = Object.entries(this.list).reduce((acc, [ k, v ]) => v.type === value ? { ...acc, [k]: v } : acc, {});
+      }
     }
   }
+
 }
 </script>
 
